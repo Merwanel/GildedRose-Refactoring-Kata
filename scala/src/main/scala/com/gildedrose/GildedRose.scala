@@ -5,11 +5,15 @@ class GildedRose(val items: Array[Item]) {
 
   def updateQuality() {
     for (i <- 0 until items.length) {
+      var degrading_rate = 1
+      if (items(i).name.startsWith("Conjured")){
+        degrading_rate *= 2
+      }
       if (!items(i).name.equals("Aged Brie")
         && !items(i).name.equals("Backstage passes to a TAFKAL80ETC concert")) {
         if (items(i).quality > 0) {
           if (!items(i).name.equals("Sulfuras, Hand of Ragnaros")) {
-            items(i).quality = items(i).quality - 1
+            items(i).quality = items(i).quality - degrading_rate
           }
         }
       } else {
@@ -33,7 +37,7 @@ class GildedRose(val items: Array[Item]) {
       }
 
       if (!items(i).name.equals("Sulfuras, Hand of Ragnaros")) {
-        items(i).sellIn = items(i).sellIn - 1
+        items(i).sellIn = items(i).sellIn - degrading_rate
       }
 
       if (items(i).sellIn < 0) {
@@ -41,7 +45,7 @@ class GildedRose(val items: Array[Item]) {
           if (!items(i).name.equals("Backstage passes to a TAFKAL80ETC concert")) {
             if (items(i).quality > 0) {
               if (!items(i).name.equals("Sulfuras, Hand of Ragnaros")) {
-                items(i).quality = items(i).quality - 1
+                items(i).quality = items(i).quality - degrading_rate
               }
             }
           } else {

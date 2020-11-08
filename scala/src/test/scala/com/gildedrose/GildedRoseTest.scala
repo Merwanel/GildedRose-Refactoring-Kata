@@ -77,11 +77,18 @@ class GildedRoseTest  extends AnyFlatSpec with Matchers {
         app.updateQuality()
         app.items(0).quality should equal (0)
       }
-      "A Conjured item" should "have a Quality degrading by 2 everyday" in {
+      "A Conjured item" should "have a Quality degrading by 2 everyday, if sellIn >= 0" in {
         val originalQuality = 30
-        val items = Array[Item](new Item("Backstage passes to a TAFKAL80ETC concert", sellIn=0, quality=originalQuality))
+        val items = Array[Item](new Item("Conjured item", sellIn=42, quality=originalQuality))
         val app = new GildedRose(items)
         app.updateQuality()
-        app.items(0).quality should equal (originalQuality + 2)
+        app.items(0).quality should equal (originalQuality - 2)
+      }
+      "A Conjured item" should "have a Quality degrading by 2 everyday, if sellIn < 0" in {
+        val originalQuality = 30
+        val items = Array[Item](new Item("Conjured item", sellIn=0, quality=originalQuality))
+        val app = new GildedRose(items)
+        app.updateQuality()
+        app.items(0).quality should equal (originalQuality - 4)
       }
 }
